@@ -1,0 +1,28 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+*.DotSettings.user
+.vs/
+*.csproj.user
+
+## NuGet
+**/[Pp]ackages/*
+*.nupkg
+packages/
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio
+.vs/
+*.sln.ide/
+*.rsuser
