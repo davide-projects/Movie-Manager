@@ -3,7 +3,7 @@ using MovieManager.BLL.Services.Interfaces;
 using MovieManager.DAL.Repositories.Interfaces;
 
 public class GenericService<TModel, TEntity> : IGenericService<TModel>
-    where TModel : class
+    where TModel : class, IHasId
     where TEntity : class
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -17,28 +17,65 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel>
         _repository = _unitOfWork.Repository<TEntity>();
     }
 
-    public Task<TModel?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<TModel?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var entity = await _repository.GetByIdAsync(id, cancellationToken);
+
+        if (entity == null)
+            return null;
+        return _mapper.Map<TModel>(entity);
     }
 
-    public Task<IReadOnlyList<TModel>> GetAllAsync(CancellationToken cancellationToken = default)
+
+    public async Task<IReadOnlyList<TModel>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var entities = await _repository.GetAllAsync(cancellationToken);
+        return _mapper.Map<IReadOnlyList<TModel>>(entities);
     }
 
-    public Task<TModel> CreateAsync(TModel model, CancellationToken cancellationToken = default)
+    public async Task<TModel> CreateAsync(TModel model, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var entity = _mapper.Map<TEntity>(model);
+
+        await _repository.AddAsync(entity, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return _mapper.Map<TModel>(entity);
     }
 
-    public Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var id = GetModelId(model);
+
+        var existingEntity = await _repository.GetByIdAsync(id, cancellationToken);
+
+        if (existingEntity == null)
+            return false;
+        _mapper.Map(model, existingEntity);
+
+        _repository.Update(existingEntity);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return true;
     }
 
-    public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var entity = await _repository.GetByIdAsync(id, cancellationToken);
+        if (entity == null)
+            return false;
+        _repository.Remove(entity);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
+    private int GetModelId(TModel model)
+    {
+        if (model is IHasId hasId)
+        {
+            return hasId.Id;
+        }
+        throw new InvalidOperationException($"The model of type {typeof(TModel).Name} does not implement IHasId interface.");
     }
 }
