@@ -1,12 +1,11 @@
-﻿using System;
+﻿using MovieManager.DAL.Entities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace MovieManager.DAL.Entities
+namespace MovieManager.BLL.Models
 {
-    public class Director
+    public class DirectorModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
