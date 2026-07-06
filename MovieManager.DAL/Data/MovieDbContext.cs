@@ -10,12 +10,12 @@ namespace MovieManager.DAL.Data
         {
         }
 
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Director> Directors { get; set; }
-        public DbSet<Actor> Actors { get; set; }
-        public DbSet<MovieActor> MovieActors { get; set; }
-        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Movie> Movies => Set<Movie>();
+        public DbSet<Genre> Genres => Set<Genre>();
+        public DbSet<Director> Directors => Set<Director>();
+        public DbSet<Actor> Actors => Set<Actor>();
+        public DbSet<MovieActor> MovieActors => Set<MovieActor>();
+        public DbSet<Review> Reviews => Set<Review>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
