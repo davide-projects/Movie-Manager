@@ -1,11 +1,8 @@
-﻿using MovieManager.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MovieManager.BLL.Services.Interfaces;
 
-namespace MovieManager.BLL.Model
+namespace MovieManager.BLL.Models
 {
-    public class ActorModel
+    public class ActorModel : IModelWithId
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
@@ -13,6 +10,5 @@ namespace MovieManager.BLL.Model
         public DateOnly? BirthDate { get; set; }
         public string? Country { get; set; }
         public string? Biography { get; set; }
-        public ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
     }
 }

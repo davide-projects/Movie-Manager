@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MovieManager.PL.MVC.Models;
+using MovieManager.PL.MVC.ViewModels;
 using System.Diagnostics;
 
 namespace MovieManager.PL.MVC.Controllers

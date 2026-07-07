@@ -53,34 +53,12 @@ namespace MovieManager.DAL.Repositories
             _dbSet.Remove(entity);
         }
 
-        Task IGenericRepository<T>.SaveChangeAsync(CancellationToken cancellationToken)
-        {
-            return SaveChangeAsync(cancellationToken);
-        }
-
-        private async Task SaveChangeAsync(CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new InvalidOperationException("An error occurred while saving changes to the database.", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("An unexpected error occurred while saving changes to the database.", ex);
-            }
-        }
-
         private void EnsureDbSetIsValid()
         {
             if (_dbSet == null)
             {
                 throw new InvalidOperationException($"DbSet for {typeof(T).Name} is not configured!");
             }
-
         }
     }
 }

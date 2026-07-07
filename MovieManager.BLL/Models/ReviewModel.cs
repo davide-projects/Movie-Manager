@@ -1,15 +1,11 @@
-﻿using MovieManager.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MovieManager.BLL.Services.Interfaces;
 
 namespace MovieManager.BLL.Models
 {
-    public class ReviewModel
+    public class ReviewModel : IModelWithId
     {
         public int Id { get; set; }
         public int MovieId { get; set; }
-        public Movie Movie { get; set; } = null!;
         public string ReviewerName { get; set; } = string.Empty;
         public int Score { get; set; }
         public string? Comment { get; set; }

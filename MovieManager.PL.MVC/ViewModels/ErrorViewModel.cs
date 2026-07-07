@@ -1,4 +1,4 @@
-namespace MovieManager.PL.Models
+namespace MovieManager.PL.MVC.ViewModels
 {
     public class ErrorViewModel
     {

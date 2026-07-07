@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MovieManager.DAL.Entities
+﻿namespace MovieManager.DAL.Entities
 {
     public class Director
     {

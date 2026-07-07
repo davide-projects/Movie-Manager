@@ -1,11 +1,8 @@
-﻿using MovieManager.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MovieManager.BLL.Services.Interfaces;
 
 namespace MovieManager.BLL.Models
 {
-    public class MovieModel
+    public class MovieModel : IModelWithId
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -20,10 +17,6 @@ namespace MovieManager.BLL.Models
         public string? PosterUrl { get; set; }
         public string? AgeRating { get; set; }
         public int GenreId { get; set; }
-        public Genre Genre { get; set; } = null!;
         public int DirectorId { get; set; }
-        public Director Director { get; set; } = null!;
-        public ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }
