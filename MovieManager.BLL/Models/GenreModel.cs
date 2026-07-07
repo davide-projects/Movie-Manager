@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MovieManager.BLL.Models
 {
-    internal class GenreModel
+    public class GenreModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
