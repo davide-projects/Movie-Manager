@@ -2,7 +2,7 @@
 using MovieManager.BLL.Services.Interfaces;
 using MovieManager.DAL.Repositories.Interfaces;
 
-public class GenericService<TModel, TEntity> : IGenericService<TModel>
+public class GenericService<TModel, TEntity> : IGenericService<TModel, TEntity>
     where TModel : class, IHasId
     where TEntity : class
 {

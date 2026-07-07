@@ -1,7 +1,7 @@
 ﻿namespace MovieManager.BLL.Services.Interfaces
 
 {
-    public interface IGenericService<TModel>
+    public interface IGenericService<TModel, TEntity>
     {
         Task<TModel?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 
