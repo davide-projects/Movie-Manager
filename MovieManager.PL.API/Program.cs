@@ -6,6 +6,7 @@ using MovieManager.DAL.Data;
 using MovieManager.DAL.Entities;
 using MovieManager.DAL.Repositories;
 using MovieManager.DAL.Repositories.Interfaces;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,25 +29,17 @@ builder.Services.AddScoped<IMovieActorService, MovieActorService>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseAuthorization(); 
 app.MapControllers();
 
 app.Run();
