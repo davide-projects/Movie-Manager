@@ -1,97 +1,95 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieManager.BLL.Models;
 using MovieManager.BLL.Services.Interfaces;
+using Scalar.AspNetCore;
 
 namespace MovieManager.PL.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class MoviesController : ControllerBase
+    public class GenresController : ControllerBase
     {
-        private readonly IGenericService<MovieModel> _movieService;
+        private readonly IGenericService<GenreModel> _genreService;
 
-        public MoviesController(IGenericService<MovieModel> movieService)
+        public GenresController(IGenericService<GenreModel> genreService)
         {
-            _movieService = movieService;
+            _genreService = genreService;
         }
 
-        // GET: api/movies
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<MovieModel>>> GetAllAsync(
+        public async Task<ActionResult<IEnumerable<GenreModel>>> GetAllAsync(
             CancellationToken cancellationToken = default)
         {
-            var movies = await _movieService.GetAllAsync(cancellationToken);
-            return Ok(movies);
+            var genres = await _genreService.GetAllAsync(cancellationToken);
+            return Ok(genres);
         }
 
-        // GET: api/movies/{id}
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MovieModel>> GetByIdAsync(
+
+        public async Task<ActionResult<GenreModel>> GetByIdAsync(
             int id,
             CancellationToken cancellationToken = default)
         {
-            var movie = await _movieService.GetByIdAsync(id, cancellationToken);
-            if (movie == null)
+            var genre = await _genreService.GetByIdAsync(id, cancellationToken);
+            if (genre == null)
             {
                 return NotFound();
             }
-
-            return Ok(movie);
+            return Ok(genre);
         }
 
-        // POST: api/movies
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<MovieModel>> CreateAsync(
-            [FromBody] MovieModel model,
+        public async Task<ActionResult<GenreModel>> CreateAsync(
+            [FromBody] GenreModel model,
             CancellationToken cancellationToken = default)
         {
-            var created = await _movieService.CreateAsync(model, cancellationToken);
+            var created = await _genreService.CreateAsync(model, cancellationToken);
             return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
         }
 
-        // PUT: api/movies/{id}
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] MovieModel model,
+            [FromBody] GenreModel model,
             CancellationToken cancellationToken = default)
         {
             if (model.Id != id)
             {
-                return BadRequest($"Route id and body id: {model} must match");
+                return BadRequest($"Route id ({id}) and body id ({model.Id}) must match.");
             }
-            var updated = await _movieService.UpdateAsync(model, cancellationToken);
+            var updated = await _genreService.UpdateAsync(model, cancellationToken);
             if (!updated)
             {
                 return NotFound();
             }
-
             return NoContent();
         }
 
-        // DELETE: api/movies/{id}
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync(
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task <IActionResult> DeleteAsync(
             int id,
             CancellationToken cancellationToken = default)
         {
-            var deleted = await _movieService.DeleteAsync(id, cancellationToken);
+            var deleted = await _genreService.DeleteAsync(id, cancellationToken);
             if (!deleted)
             {
                 return NotFound();
             }
             return NoContent();
         }
+
     }
 }
