@@ -35,7 +35,7 @@ namespace MovieManager.PL.API.Controllers
             var review = await _reviewsService.GetByIdAsync(id, cancellationToken);
             if (review == null)
             {
-                return NotFound();
+                return NotFound($"Review with id {id} not found.");
             }
             return Ok(review);
         }
@@ -48,7 +48,7 @@ namespace MovieManager.PL.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var created = await _reviewsService.CreateAsync(model, cancellationToken);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, new { Message = "Review created successfully.", Data = created });
         }
 
         [HttpPut("{id:int}")]
@@ -68,7 +68,7 @@ namespace MovieManager.PL.API.Controllers
             var updated = await _reviewsService.UpdateAsync(model, cancellationToken);
             if (!updated)
             {
-                return NotFound();
+                return NotFound($"Review with id {id} not found.");
             }
 
             return NoContent();
@@ -84,7 +84,7 @@ namespace MovieManager.PL.API.Controllers
             var deleted = await _reviewsService.DeleteAsync(id, cancellationToken);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound($"Review with id {id} not found.");
             }
 
             return NoContent();

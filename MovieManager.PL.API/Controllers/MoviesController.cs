@@ -37,7 +37,7 @@ namespace MovieManager.PL.API.Controllers
             var movie = await _movieService.GetByIdAsync(id, cancellationToken);
             if (movie == null)
             {
-                return NotFound();
+                return NotFound($"Movie with id {id} not found.");
             }
 
             return Ok(movie);
@@ -52,7 +52,7 @@ namespace MovieManager.PL.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var created = await _movieService.CreateAsync(model, cancellationToken);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, new { Message = "Movie created successfully.", Data = created });
         }
 
         // PUT: api/movies/{id}
@@ -67,12 +67,12 @@ namespace MovieManager.PL.API.Controllers
         {
             if (model.Id != id)
             {
-                return BadRequest($"Route id and body id: {model} must match");
+                return BadRequest($"Route id ({id}) and body id ({model.Id}) must match.");
             }
             var updated = await _movieService.UpdateAsync(model, cancellationToken);
             if (!updated)
             {
-                return NotFound();
+                return NotFound($"Movie with id {id} not found.");
             }
 
             return NoContent();
@@ -89,7 +89,7 @@ namespace MovieManager.PL.API.Controllers
             var deleted = await _movieService.DeleteAsync(id, cancellationToken);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound($"Movie with id {id} not found.");
             }
             return NoContent();
         }

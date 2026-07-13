@@ -35,7 +35,7 @@ namespace MovieManager.PL.API.Controllers
             var actor = await _actorService.GetByIdAsync(id, cancellationToken);
             if (actor == null)
             {
-                return NotFound();
+                return NotFound($"Actor with id {id} not found.");
             }
             return Ok(actor);
         }
@@ -48,7 +48,7 @@ namespace MovieManager.PL.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var created = await _actorService.CreateAsync(model, cancellationToken);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, new { Message = "Actor created successfully.", Data = created });
         }
 
         [HttpPut("{id:int}")]
@@ -68,7 +68,7 @@ namespace MovieManager.PL.API.Controllers
             var updated = await _actorService.UpdateAsync(model, cancellationToken);
             if (!updated)
             {
-                return NotFound();
+                return NotFound($"Actor with id {id} not found.");
             }
 
             return NoContent();
@@ -84,7 +84,7 @@ namespace MovieManager.PL.API.Controllers
             var deleted = await _actorService.DeleteAsync(id, cancellationToken);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound($"Actor with id {id} not found.");
             }
 
             return NoContent();

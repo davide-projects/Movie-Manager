@@ -37,7 +37,7 @@ namespace MovieManager.PL.API.Controllers
             var genre = await _genreService.GetByIdAsync(id, cancellationToken);
             if (genre == null)
             {
-                return NotFound();
+                return NotFound($"Genre with id {id} not found.");
             }
             return Ok(genre);
         }
@@ -50,7 +50,7 @@ namespace MovieManager.PL.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var created = await _genreService.CreateAsync(model, cancellationToken);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = created.Id }, new { Message = "Genre created successfully.", Data = created });
         }
 
         [HttpPut("{id:int}")]
@@ -70,7 +70,7 @@ namespace MovieManager.PL.API.Controllers
             var updated = await _genreService.UpdateAsync(model, cancellationToken);
             if (!updated)
             {
-                return NotFound();
+                return NotFound($"Genre with id {id} not found.");
             }
             return NoContent();
         }
@@ -85,7 +85,7 @@ namespace MovieManager.PL.API.Controllers
             var deleted = await _genreService.DeleteAsync(id, cancellationToken);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound($"Genre with id {id} not found.");
             }
             return NoContent();
         }

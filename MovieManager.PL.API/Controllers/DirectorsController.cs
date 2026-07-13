@@ -35,7 +35,7 @@ namespace MovieManager.PL.API.Controllers
             var director = await _directorService.GetByIdAsync(id, cancellationToken);
             if (director == null)
             {
-                return NotFound();
+                return NotFound($"Director with id {id} not found.");
             }
             return Ok(director);
         }
@@ -46,11 +46,11 @@ namespace MovieManager.PL.API.Controllers
         public async Task<ActionResult<DirectorModel>> CreateAsync([FromBody] DirectorModel model, CancellationToken cancellationToken = default)
         {
             var created = await _directorService.CreateAsync(model, cancellationToken);
-            return CreatedAtAction(nameof(GetByIdAsync), new {id = created.Id}, created);
+            return CreatedAtAction(nameof(GetByIdAsync), new {id = created.Id}, new { Message = "Director created successfully.", Data = created });
         }
 
         [HttpPut("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] DirectorModel model ,CancellationToken cancellationToken = default)
@@ -62,7 +62,7 @@ namespace MovieManager.PL.API.Controllers
             var updated = await _directorService.UpdateAsync(model, cancellationToken);
             if (!updated)
             {
-                return NotFound();
+                return NotFound($"Director with id {id} not found.");
             }
             return NoContent();
         }
@@ -75,7 +75,7 @@ namespace MovieManager.PL.API.Controllers
             var deleted = await _directorService.DeleteAsync(id, cancellationToken);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound($"Director with id {id} not found.");
             }
             return NoContent();
         }
