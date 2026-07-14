@@ -41,6 +41,14 @@ namespace MovieManager.DAL.Data
                 .IsRequired()
                 .HasMaxLength(200);
 
+            modelBuilder.Entity<Movie>()
+                .Property(m => m.Budget)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Movie>()
+                .Property(m => m.Revenue)
+                .HasPrecision(18, 2);
+
             modelBuilder.Entity<Genre>()
                 .Property(g => g.Name)
                 .IsRequired()

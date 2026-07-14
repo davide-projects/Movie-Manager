@@ -11,7 +11,7 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("MovieDBString")
-    ?? throw new InvalidOperationException("Connection string 'MovieDBString' not found.");
+    ?? throw new InvalidOperationException("Connection string \'MovieDBString\' not found.");
 
 builder.Services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(connectionString));
 
